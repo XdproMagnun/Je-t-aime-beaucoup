@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Yess</title>
+  <style>
+    :root {
+      --rose: #ff4f88;
+      --wine: #6f123d;
+      --cream: #fff7f9;
+      --gold: #ffd1a6;
+      --shadow: rgba(111, 18, 61, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--wine);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 209, 166, 0.72), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(255, 79, 136, 0.26), transparent 30%),
+        linear-gradient(135deg, #fff0f5 0%, #ffe1eb 42%, #fff8ed 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      overflow-x: hidden;
+      padding: 28px;
+      scroll-behavior: smooth;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 2px, transparent 3px) 0 0 / 92px 92px,
+        radial-gradient(circle, rgba(255, 209, 166, 0.8) 0 1px, transparent 2px) 40px 30px / 120px 120px;
+      opacity: 0.34;
+      animation: twinkle 8s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      opacity: 0.22;
+      transform: rotate(12deg);
+      animation-duration: 11s;
+      animation-direction: alternate-reverse;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      width: var(--size, 18px);
+      height: var(--size, 18px);
+      background: var(--rose);
+      transform: rotate(45deg);
+      opacity: 0.45;
+      filter: drop-shadow(0 10px 16px rgba(181, 31, 90, 0.18));
+      animation: floatUp linear infinite, heartGlow 2.8s ease-in-out infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: var(--size, 18px);
+      height: var(--size, 18px);
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .heart::before {
+      left: calc(var(--size, 18px) / -2);
+    }
+
+    .heart::after {
+      top: calc(var(--size, 18px) / -2);
+    }
+
+    .heart:nth-child(1) { left: 6%; --size: 18px; animation-duration: 12s, 2.8s; animation-delay: 0s, 0s; }
+    .heart:nth-child(2) { left: 15%; --size: 12px; animation-duration: 16s, 3.1s; animation-delay: 2s, 0.4s; background: #ff8bae; }
+    .heart:nth-child(3) { left: 27%; --size: 22px; animation-duration: 13s, 2.4s; animation-delay: 5s, 0.2s; }
+    .heart:nth-child(4) { left: 41%; --size: 14px; animation-duration: 18s, 3.4s; animation-delay: 1s, 0.7s; background: #ffd1a6; }
+    .heart:nth-child(5) { left: 56%; --size: 20px; animation-duration: 14s, 2.6s; animation-delay: 4s, 0.1s; }
+    .heart:nth-child(6) { left: 70%; --size: 13px; animation-duration: 17s, 3.2s; animation-delay: 3s, 0.6s; background: #ff8bae; }
+    .heart:nth-child(7) { left: 84%; --size: 18px; animation-duration: 15s, 2.9s; animation-delay: 6s, 0.3s; }
+    .heart:nth-child(8) { left: 94%; --size: 11px; animation-duration: 11s, 2.5s; animation-delay: 1.5s, 0s; background: #ffd1a6; }
+    .heart:nth-child(9) { left: 35%; --size: 10px; animation-duration: 19s, 3.6s; animation-delay: 7s, 0.5s; }
+    .heart:nth-child(10) { left: 76%; --size: 24px; animation-duration: 21s, 3s; animation-delay: 8s, 0.2s; background: #ff6f9e; }
+
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 18px 5px rgba(255, 255, 255, 0.8);
+      opacity: 0;
+      animation: sparkle 4s ease-in-out infinite;
+    }
+
+    .sparkle:nth-child(1) { left: 14%; top: 18%; animation-delay: 0.2s; }
+    .sparkle:nth-child(2) { left: 82%; top: 22%; animation-delay: 1.1s; }
+    .sparkle:nth-child(3) { left: 22%; top: 76%; animation-delay: 2s; }
+    .sparkle:nth-child(4) { left: 68%; top: 70%; animation-delay: 0.8s; }
+    .sparkle:nth-child(5) { left: 51%; top: 12%; animation-delay: 2.7s; }
+    .sparkle:nth-child(6) { left: 88%; top: 58%; animation-delay: 3.3s; }
+
+    .love-rain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 16px;
+      height: 24px;
+      border-radius: 16px 16px 4px 16px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 111, 158, 0.84));
+      opacity: 0.65;
+      animation: petalFall linear infinite;
+    }
+
+    .petal:nth-child(1) { left: 4%; animation-duration: 13s; animation-delay: 0s; }
+    .petal:nth-child(2) { left: 12%; animation-duration: 17s; animation-delay: 2s; }
+    .petal:nth-child(3) { left: 24%; animation-duration: 15s; animation-delay: 4s; }
+    .petal:nth-child(4) { left: 38%; animation-duration: 18s; animation-delay: 1s; }
+    .petal:nth-child(5) { left: 52%; animation-duration: 14s; animation-delay: 3s; }
+    .petal:nth-child(6) { left: 66%; animation-duration: 19s; animation-delay: 5s; }
+    .petal:nth-child(7) { left: 78%; animation-duration: 16s; animation-delay: 2.5s; }
+    .petal:nth-child(8) { left: 91%; animation-duration: 20s; animation-delay: 6s; }
+
+    .card {
+      width: min(720px, 100%);
+      position: relative;
+      z-index: 1;
+      padding: clamp(28px, 6vw, 64px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 28px 80px var(--shadow);
+      backdrop-filter: blur(18px);
+      text-align: center;
+      animation: cardEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) both, softPulse 4.8s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: translateX(-120%);
+      animation: shine 5.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(255, 79, 136, 0.12);
+      color: #9b2456;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      animation: fadeSlide 0.9s ease 0.25s both;
+    }
+
+    h1 {
+      margin: 22px 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.4rem, 12vw, 7.2rem);
+      line-height: 0.9;
+      color: var(--rose);
+      text-shadow: 0 10px 28px rgba(255, 79, 136, 0.24);
+      animation: nameBeat 2.4s ease-in-out infinite, fadeSlide 0.9s ease 0.4s both;
+    }
+
+    .subtitle {
+      margin: 0 auto 30px;
+      max-width: 560px;
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      line-height: 1.65;
+      animation: fadeSlide 0.9s ease 0.55s both;
+    }
+
+    .letter {
+      margin: 0 auto;
+      max-width: 590px;
+      padding: 28px;
+      border-radius: 20px;
+      background: rgba(255, 247, 249, 0.82);
+      text-align: left;
+      line-height: 1.8;
+      font-size: 1.06rem;
+      box-shadow: inset 0 0 0 1px rgba(255, 79, 136, 0.12);
+      animation: fadeSlide 0.9s ease 0.72s both;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .letter strong {
+      color: #d92e70;
+    }
+
+    .letter-hint {
+      margin: 0 0 18px;
+      color: rgba(155, 36, 86, 0.72);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .reveal-line {
+      display: none;
+      margin: 0 0 16px;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .reveal-line.visible {
+      display: block;
+      animation: revealText 0.72s ease forwards;
+    }
+
+    button {
+      margin-top: 28px;
+      border: 0;
+      border-radius: 999px;
+      padding: 15px 26px;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #ff4f88, #b51f5a);
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 16px 30px rgba(181, 31, 90, 0.28);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: buttonBeat 1.8s ease-in-out infinite;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 38px rgba(181, 31, 90, 0.34);
+    }
+
+    .memory-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      border-radius: 999px;
+      padding: 14px 22px;
+      color: #9b2456;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 79, 136, 0.18);
+      font-size: 0.98rem;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 14px 28px rgba(111, 18, 61, 0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      animation: fadeSlide 0.9s ease 0.82s both;
+    }
+
+    .memory-link:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 247, 249, 0.94);
+      box-shadow: 0 18px 34px rgba(111, 18, 61, 0.18);
+    }
+
+    .secret {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.7s ease, opacity 0.7s ease, margin 0.7s ease;
+    }
+
+    .secret.show {
+      max-height: 260px;
+      opacity: 1;
+      margin-top: 24px;
+    }
+
+    .secret p {
+      margin: 0;
+      padding: 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 79, 136, 0.13), rgba(255, 209, 166, 0.24));
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+
+    .music-card {
+      margin: 28px auto 0;
+      max-width: 610px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 24px;
+      border: 1px solid rgba(255, 79, 136, 0.14);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(255, 209, 166, 0.28), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 247, 249, 0.74));
+      color: var(--wine);
+      box-shadow: 0 18px 44px rgba(111, 18, 61, 0.16);
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      animation: fadeSlide 0.9s ease 0.88s both, musicGlow 3.4s ease-in-out infinite;
+    }
+
+    .music-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0 44%, rgba(255, 255, 255, 0.55) 50%, transparent 58% 100%);
+      transform: translateX(-100%);
+      animation: shine 6.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .disc-stage {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+    }
+
+    .disc-stage::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      background: rgba(255, 79, 136, 0.18);
+      filter: blur(20px);
+      animation: haloPulse 2.8s ease-in-out infinite;
+    }
+
+    .vinyl {
+      width: 136px;
+      height: 136px;
+      border-radius: 50%;
+      position: relative;
+      background:
+        radial-gradient(circle, #fff7f9 0 7px, #2f0b1d 8px 12px, transparent 13px),
+        radial-gradient(circle at 36% 34%, rgba(255, 255, 255, 0.24), transparent 15%),
+        repeating-radial-gradient(circle, #070307 0 5px, #1b0613 6px 8px, #050205 9px 13px);
+      box-shadow:
+        inset 0 0 0 8px rgba(255, 255, 255, 0.04),
+        inset 0 0 0 56px rgba(255, 79, 136, 0.07),
+        0 18px 42px rgba(0, 0, 0, 0.34);
+      animation: spin 5s linear infinite;
+    }
+
+    .music-card.paused .vinyl,
+    .music-card.paused .equalizer span {
+      animation-play-state: paused;
+    }
+
+    .vinyl::before {
+      content: "";
+      position: absolute;
+      inset: 35px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, rgba(255, 209, 166, 0.85), rgba(255, 79, 136, 0.78)),
+        radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 48%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+    }
+
+    .vinyl-logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 86px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 8px;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .tone-arm {
+      position: absolute;
+      width: 78px;
+      height: 9px;
+      right: -2px;
+      top: 31px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fff7f9, #a9a7ad, #ffffff);
+      transform: rotate(34deg);
+      transform-origin: right center;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+      animation: armFloat 3.2s ease-in-out infinite;
+    }
+
+    .tone-arm::after {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: -5px;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #ffffff, #ff8bae);
+      transform: rotate(18deg);
+    }
+
+    .song-logo {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.85rem, 5vw, 3rem);
+      font-style: italic;
+      font-weight: 900;
+      line-height: 0.86;
+      letter-spacing: -0.04em;
+      text-transform: lowercase;
+      color: transparent;
+      background: linear-gradient(115deg, #ffffff 0%, #bfc3cc 22%, #ffffff 42%, #ffd1a6 58%, #ff8bae 72%, #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.42));
+      animation: chromeGlow 2.8s ease-in-out infinite;
+    }
+
+    .music-info small {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(111, 18, 61, 0.62);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .music-info strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.35rem, 4vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #9b2456;
+    }
+
+    .music-info p {
+      margin: 0 0 12px;
+      color: rgba(111, 18, 61, 0.72);
+      line-height: 1.55;
+    }
+
+    .equalizer {
+      display: flex;
+      align-items: end;
+      gap: 5px;
+      height: 28px;
+      margin-bottom: 12px;
+    }
+
+    .equalizer span {
+      width: 6px;
+      border-radius: 999px;
+      background: linear-gradient(#ffd1a6, #ff8bae);
+      animation: equalizer 1s ease-in-out infinite;
+    }
+
+    .equalizer span:nth-child(1) { height: 12px; animation-delay: 0s; }
+    .equalizer span:nth-child(2) { height: 24px; animation-delay: 0.15s; }
+    .equalizer span:nth-child(3) { height: 17px; animation-delay: 0.3s; }
+    .equalizer span:nth-child(4) { height: 28px; animation-delay: 0.45s; }
+    .equalizer span:nth-child(5) { height: 15px; animation-delay: 0.6s; }
+
+    .music-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, #ff4f88, #b51f5a);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+      animation: none;
+    }
+
+    .music-button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #ff6f9e, #b51f5a);
+    }
+
+    audio {
+      width: 100%;
+      height: 34px;
+      margin-top: 12px;
+      accent-color: #ff8bae;
+    }
+
+    .music-status {
+      min-height: 1.2em;
+      margin-top: 8px;
+      color: rgba(111, 18, 61, 0.62);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .memories-section {
+      width: min(760px, 100%);
+      position: relative;
+      z-index: 1;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.56);
+      box-shadow: 0 28px 80px rgba(111, 18, 61, 0.18);
+      backdrop-filter: blur(18px);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .memories-section::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 79, 136, 0.12);
+      pointer-events: none;
+    }
+
+    .memories-kicker {
+      margin: 0 0 8px;
+      color: #9b2456;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .memories-section h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.1rem, 8vw, 4.3rem);
+      color: var(--rose);
+      text-shadow: 0 10px 28px rgba(255, 79, 136, 0.2);
+    }
+
+    .memories-copy {
+      max-width: 540px;
+      margin: 12px auto 24px;
+      color: rgba(111, 18, 61, 0.76);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .carousel {
+      position: relative;
+      width: min(430px, 100%);
+      aspect-ratio: 9 / 16;
+      margin: 0 auto;
+      border-radius: 26px;
+      overflow: hidden;
+      background: rgba(255, 247, 249, 0.62);
+      box-shadow: 0 24px 58px rgba(111, 18, 61, 0.24);
+    }
+
+    .carousel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(111, 18, 61, 0.1), transparent 28%, transparent 72%, rgba(111, 18, 61, 0.18)),
+        radial-gradient(circle at 50% 8%, rgba(255, 255, 255, 0.38), transparent 24%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .memory-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 1.1s ease, transform 3.8s ease;
+    }
+
+    .memory-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 1;
+    }
+
+    .memory-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.96) contrast(0.96) brightness(1.03);
+    }
+
+    .carousel-controls {
+      position: absolute;
+      inset-inline: 14px;
+      top: 50%;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .carousel-controls button {
+      width: 42px;
+      height: 42px;
+      margin: 0;
+      padding: 0;
+      pointer-events: auto;
+      color: #9b2456;
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 10px 24px rgba(111, 18, 61, 0.18);
+      animation: none;
+    }
+
+    .memory-dots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin: 20px auto 0;
+      max-width: 380px;
+    }
+
+    .memory-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(155, 36, 86, 0.24);
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .memory-dot.active {
+      width: 24px;
+      background: var(--rose);
+    }
+
+    .back-link {
+      display: inline-flex;
+      margin-top: 22px;
+      color: #9b2456;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .signature {
+      margin-top: 26px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+      color: #9b2456;
+      animation: fadeSlide 0.9s ease 0.95s both;
+    }
+
+    .burst-heart {
+      position: fixed;
+      left: var(--x);
+      top: var(--y);
+      width: 12px;
+      height: 12px;
+      background: var(--burst-color, #ff4f88);
+      transform: translate(-50%, -50%) rotate(45deg);
+      pointer-events: none;
+      z-index: 10;
+      animation: burst 900ms ease-out forwards;
+    }
+
+    .burst-heart::before,
+    .burst-heart::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .burst-heart::before {
+      left: -6px;
+    }
+
+    .burst-heart::after {
+      top: -6px;
+    }
+
+    .floating-note {
+      position: fixed;
+      left: var(--x);
+      top: var(--y);
+      z-index: 11;
+      pointer-events: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #9b2456;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 12px 28px rgba(111, 18, 61, 0.18);
+      font-size: 0.92rem;
+      font-weight: 800;
+      animation: noteFloat 1.35s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(45deg) scale(0.8);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.48;
+      }
+      50% {
+        transform: translate3d(28px, -58vh, 0) rotate(45deg) scale(1);
+      }
+      100% {
+        transform: translate3d(-18px, -115vh, 0) rotate(45deg) scale(1.25);
+        opacity: 0;
+      }
+    }
+
+    @keyframes heartGlow {
+      0%, 100% {
+        filter: drop-shadow(0 10px 16px rgba(181, 31, 90, 0.16));
+      }
+      50% {
+        filter: drop-shadow(0 10px 22px rgba(255, 79, 136, 0.45));
+      }
+    }
+
+    @keyframes twinkle {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      100% {
+        transform: translate3d(24px, -18px, 0) scale(1.03);
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      45%, 55% {
+        opacity: 0.9;
+        transform: scale(1.45);
+      }
+    }
+
+    @keyframes petalFall {
+      0% {
+        transform: translate3d(0, -20px, 0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.68;
+      }
+      50% {
+        transform: translate3d(38px, 52vh, 0) rotate(150deg);
+      }
+      100% {
+        transform: translate3d(-24px, 110vh, 0) rotate(340deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes revealText {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes softPulse {
+      0%, 100% {
+        box-shadow: 0 28px 80px var(--shadow);
+      }
+      50% {
+        box-shadow: 0 34px 96px rgba(181, 31, 90, 0.3);
+      }
+    }
+
+    @keyframes shine {
+      0%, 55% {
+        transform: translateX(-120%);
+      }
+      75%, 100% {
+        transform: translateX(120%);
+      }
+    }
+
+    @keyframes nameBeat {
+      0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 10px 28px rgba(255, 79, 136, 0.24);
+      }
+      50% {
+        transform: scale(1.045);
+        text-shadow: 0 12px 40px rgba(255, 79, 136, 0.48);
+      }
+    }
+
+    @keyframes buttonBeat {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-1px) scale(1.035);
+      }
+    }
+
+    @keyframes burst {
+      to {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(45deg) scale(0.35);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes equalizer {
+      0%, 100% {
+        transform: scaleY(0.5);
+      }
+      50% {
+        transform: scaleY(1);
+      }
+    }
+
+    @keyframes musicGlow {
+      0%, 100% {
+        box-shadow: 0 18px 42px rgba(111, 18, 61, 0.24);
+      }
+      50% {
+        box-shadow: 0 24px 58px rgba(255, 79, 136, 0.35);
+      }
+    }
+
+    @keyframes haloPulse {
+      0%, 100% {
+        opacity: 0.54;
+        transform: scale(0.92);
+      }
+      50% {
+        opacity: 0.9;
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes armFloat {
+      0%, 100% {
+        transform: rotate(34deg);
+      }
+      50% {
+        transform: rotate(29deg);
+      }
+    }
+
+    @keyframes chromeGlow {
+      0%, 100% {
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.42));
+      }
+      50% {
+        filter: drop-shadow(0 8px 20px rgba(255, 209, 166, 0.4));
+      }
+    }
+
+    @keyframes noteFloat {
+      to {
+        opacity: 0;
+        transform: translateY(-82px) scale(1.08);
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        border-radius: 22px;
+      }
+
+      .letter {
+        padding: 20px;
+      }
+
+      .music-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .vinyl,
+      .equalizer {
+        margin-inline: auto;
+      }
+
+      .memories-section {
+        border-radius: 22px;
+      }
+
+      .carousel {
+        width: min(340px, 100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" aria-hidden="true">
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+  </div>
+
+  <div class="sparkles" aria-hidden="true">
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+  </div>
+
+  <div class="love-rain" aria-hidden="true">
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+    <span class="petal"></span>
+  </div>
+
+  <main class="card" id="top">
+    <div class="badge">Une lettre avec amour</div>
+    <h1>Yess</h1>
+    <p class="subtitle">
+      Hay personas que llegan a la vida y la vuelven mas bonita sin darse cuenta.
+      Tu eres una de esas personas para mi.
+    </p>
+
+    <section class="letter" id="loveLetter" aria-label="Mensaje de amor para Yess">
+      <p class="letter-hint">Toca esta carta para revelar cada frase.</p>
+      <p class="reveal-line visible">Yess, queria decirte algo que llevo en el corazon: <strong>je t'aime beaucoup</strong>.</p>
+      <p class="reveal-line">J'aime tu forma de ser, tu risa, tu manera de hacer que todo se sienta mas tranquilo y especial.</p>
+      <p class="reveal-line">Gracias por existir, por iluminar mis dias y por ser ese pensamiento bonito que me acompana incluso cuando no estas cerca.</p>
+      <p class="reveal-line">Si pudiera resumir lo que siento por ti en una sola frase, seria esta: contigo, la vida se siente como un lugar al que siempre quiero volver.</p>
+      <p class="reveal-line">Escribo estas palabras porque a veces las palabras habladas no son suficientes para abarcar todo lo que mi corazon siente por ti.</p>
+      <p class="reveal-line">Quiero que esta carta sea un reflejo de cuanto je t'aime y de lo increible que ha sido mi vida desde que llegaste.</p>
+      <p class="reveal-line">Cada dia a tu lado es un regalo.</p>
+      <p class="reveal-line">Me fascina ver la forma en la que iluminas cualquier lugar con tu sonrisa y como, sin darte cuenta, me inspiras a ser una mejor persona.</p>
+      <p class="reveal-line">Eres mi lugar seguro en medio del mundo y la parte favorita de mi rutina.</p>
+      <p class="reveal-line">A veces me detengo a pensar en como nuestros caminos se cruzaron y no puedo evitar sonreir.</p>
+      <p class="reveal-line">Me encanta cada detalle de ti: tu forma de ver la vida, la complicidad que hemos creado y, sobre todo, la manera en la que me haces sentir aim&eacute; cada dia.</p>
+      <p class="reveal-line">Quiero prometerte que, sin importar lo que el futuro traiga, estare a tu lado para apoyarte, celebrarte y cuidarte.</p>
+      <p class="reveal-line">Eres y siempre seras la persona mas especial en mi vida.</p>
+      <p class="reveal-line">Je t'aime aujourd'hui, demain et pour toujours.</p>
+    </section>
+
+    <button type="button" id="revealButton">Toca aqui, Yess</button>
+    <a class="memory-link" href="#recuerdos">Entra para ver nuestros recuerdos &lt;3</a>
+
+    <div class="secret" id="secretMessage">
+      <p>
+        Mon amour pour toi no cabe en una pagina, pero esta pagina existe para recordarte
+        algo simple y enorme: eres mi persona favorita, mi alegria y mi razon para sonreir.
+      </p>
+    </div>
+
+    <section class="music-card" aria-label="Cancion especial">
+      <div class="disc-stage" aria-hidden="true">
+        <div class="vinyl">
+          <img class="vinyl-logo" src="assets/daft-punk-logo.svg" alt="" />
+        </div>
+        <div class="tone-arm"></div>
+      </div>
+      <div class="music-info">
+        <small>Nuestra vibra</small>
+        <div class="song-logo">daft<br>punk</div>
+        <strong>Something About Us</strong>
+        <p>Una cancion suave para acompanar este detalle.</p>
+        <div class="equalizer" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <button class="music-button" type="button" id="musicButton">Reproducir musica</button>
+        <audio id="loveSong" preload="auto" autoplay loop controls>
+          <source src="something-about-us.mp3" type="audio/mpeg" />
+        </audio>
+        <div class="music-status" id="musicStatus">La musica intentara iniciar al abrir.</div>
+      </div>
+    </section>
+
+    <div class="signature">Avec tout mon amour</div>
+  </main>
+
+  <section class="memories-section" id="recuerdos" aria-label="Nuestros recuerdos">
+    <p class="memories-kicker">Nuestro pequeno album</p>
+    <h2>Nuestros recuerdos</h2>
+    <p class="memories-copy">
+      Cada foto guarda un pedacito de nosotros: momentos sencillos, miradas bonitas
+      y dias que siempre quiero volver a sentir contigo.
+    </p>
+
+    <div class="carousel" aria-live="polite">
+      <div class="memory-slide active">
+        <img src="memories/IMG_20251203_201333_457.webp" alt="Recuerdo juntos 1" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251203_201639_651.webp" alt="Recuerdo juntos 2" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251203_201657_228.webp" alt="Recuerdo juntos 3" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251204_100012_233.webp" alt="Recuerdo juntos 4" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175048_118.webp" alt="Recuerdo juntos 5" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175117_331.webp" alt="Recuerdo juntos 6" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175132_830.webp" alt="Recuerdo juntos 7" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175349_179.webp" alt="Recuerdo juntos 8" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175448_613.webp" alt="Recuerdo juntos 9" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251203_201116_453.webp" alt="Recuerdo juntos 10" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251217_175546_682.webp" alt="Recuerdo juntos 11" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251203_201136_116.webp" alt="Recuerdo juntos 12" />
+      </div>
+      <div class="memory-slide">
+        <img src="memories/IMG_20251203_201243_599.webp" alt="Recuerdo juntos 13" />
+      </div>
+
+      <div class="carousel-controls" aria-label="Controles del carrusel">
+        <button type="button" id="prevMemory" aria-label="Foto anterior">&lt;</button>
+        <button type="button" id="nextMemory" aria-label="Foto siguiente">&gt;</button>
+      </div>
+    </div>
+
+    <div class="memory-dots" id="memoryDots" aria-hidden="true"></div>
+    <a class="back-link" href="#top">Volver a la carta</a>
+  </section>
+
+  <script>
+    const button = document.getElementById("revealButton");
+    const secret = document.getElementById("secretMessage");
+    const loveLetter = document.getElementById("loveLetter");
+    const revealLines = Array.from(document.querySelectorAll(".reveal-line"));
+    const loveSong = document.getElementById("loveSong");
+    const musicButton = document.getElementById("musicButton");
+    const musicCard = document.querySelector(".music-card");
+    const musicStatus = document.getElementById("musicStatus");
+    const memorySlides = Array.from(document.querySelectorAll(".memory-slide"));
+    const memoryDots = document.getElementById("memoryDots");
+    const prevMemory = document.getElementById("prevMemory");
+    const nextMemory = document.getElementById("nextMemory");
+    const colors = ["#ff4f88", "#ff8bae", "#ffd1a6", "#d92e70"];
+    const notes = ["Je t'aime", "Yess", "Mon amour", "Pour toujours"];
+    let visibleLine = 1;
+    let activeMemory = 0;
+    let memoryTimer;
+
+    memorySlides.forEach((slide, index) => {
+      const dot = document.createElement("span");
+      dot.className = index === 0 ? "memory-dot active" : "memory-dot";
+      memoryDots.appendChild(dot);
+    });
+
+    const dots = Array.from(document.querySelectorAll(".memory-dot"));
+
+    function showMemory(index) {
+      activeMemory = (index + memorySlides.length) % memorySlides.length;
+
+      memorySlides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("active", slideIndex === activeMemory);
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === activeMemory);
+      });
+    }
+
+    function startMemoryCarousel() {
+      window.clearInterval(memoryTimer);
+      memoryTimer = window.setInterval(() => {
+        showMemory(activeMemory + 1);
+      }, 3600);
+    }
+
+    function moveMemory(direction) {
+      showMemory(activeMemory + direction);
+      startMemoryCarousel();
+    }
+
+    function setMusicPlaying(isPlaying) {
+      musicCard.classList.toggle("paused", !isPlaying);
+      musicButton.textContent = isPlaying ? "Pausar musica" : "Reproducir musica";
+      musicStatus.textContent = isPlaying
+        ? "Sonando para Yess."
+        : "Toca el boton para iniciar la musica.";
+    }
+
+    async function tryPlaySong() {
+      try {
+        loveSong.volume = 0.72;
+        loveSong.load();
+        await loveSong.play();
+        setMusicPlaying(true);
+      } catch (error) {
+        setMusicPlaying(false);
+      }
+    }
+
+    function createHeartBurst() {
+      const rect = button.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      for (let index = 0; index < 18; index += 1) {
+        const heart = document.createElement("span");
+        const angle = (Math.PI * 2 * index) / 18;
+        const distance = 70 + Math.random() * 70;
+
+        heart.className = "burst-heart";
+        heart.style.setProperty("--x", `${centerX}px`);
+        heart.style.setProperty("--y", `${centerY}px`);
+        heart.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+        heart.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+        heart.style.setProperty("--burst-color", colors[index % colors.length]);
+        document.body.appendChild(heart);
+
+        window.setTimeout(() => heart.remove(), 950);
+      }
+    }
+
+    function createFloatingNotes() {
+      const rect = button.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top;
+
+      notes.forEach((text, index) => {
+        const note = document.createElement("span");
+        note.className = "floating-note";
+        note.textContent = text;
+        note.style.setProperty("--x", `${centerX - 120 + index * 78}px`);
+        note.style.setProperty("--y", `${centerY - 12 - Math.random() * 24}px`);
+        document.body.appendChild(note);
+
+        window.setTimeout(() => note.remove(), 1400);
+      });
+    }
+
+    function revealNextLine() {
+      if (visibleLine < revealLines.length) {
+        revealLines[visibleLine].classList.add("visible");
+        visibleLine += 1;
+        createHeartBurst();
+      } else {
+        createFloatingNotes();
+      }
+    }
+
+    button.addEventListener("click", () => {
+      secret.classList.toggle("show");
+      createHeartBurst();
+      createFloatingNotes();
+      if (loveSong.paused) {
+        tryPlaySong();
+      }
+      button.textContent = secret.classList.contains("show")
+        ? "Je t'aime, Yess"
+        : "Toca aqui, Yess";
+    });
+
+    loveLetter.addEventListener("click", revealNextLine);
+
+    musicButton.addEventListener("click", () => {
+      if (loveSong.paused) {
+        tryPlaySong();
+      } else {
+        loveSong.pause();
+        setMusicPlaying(false);
+      }
+    });
+
+    loveSong.addEventListener("play", () => setMusicPlaying(true));
+    loveSong.addEventListener("pause", () => setMusicPlaying(false));
+    prevMemory.addEventListener("click", () => moveMemory(-1));
+    nextMemory.addEventListener("click", () => moveMemory(1));
+    window.addEventListener("load", tryPlaySong);
+    startMemoryCarousel();
+    document.addEventListener("click", () => {
+      if (loveSong.paused) {
+        tryPlaySong();
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
